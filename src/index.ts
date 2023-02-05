@@ -3,11 +3,13 @@ import { readFile, utils } from 'xlsx';
 import { Expense, ExpenseRaw } from './Expense';
 import { Sorter } from './Sorter';
 
-const main = async (): Promise<void> => {
-  const x = readFile('expenses.xls');
-  const sheetName = x.SheetNames[0];
+const analyzeFile = async (filename: string): Promise<void> => {
+  console.log(`analyzing "${filename}"...`);
+
+  const xls = readFile(filename);
+  const sheetName = xls.SheetNames[0];
   if (!sheetName) throw new Error('no sheet name');
-  const sheet = x.Sheets[sheetName];
+  const sheet = xls.Sheets[sheetName];
   if (!sheet) throw new Error('no sheet found');
 
   const expenses = utils.sheet_to_json<ExpenseRaw>(sheet).map(e => new Expense(e));
@@ -39,7 +41,15 @@ const main = async (): Promise<void> => {
   expenses.forEach(e => sorter.addExpense(e));
 
   const categorized = sorter.getExpenses();
-  await fs.writeFile('expenses.json', JSON.stringify(categorized, null, 2));
+  await fs.writeFile(filename.replace('.xls', '.json'), JSON.stringify(categorized, null, 2));
+};
+
+const main = async (): Promise<void> => {
+  const files = await fs.readdir('.');
+  const xls = files.filter(f => f.endsWith('.xls'));
+  for (const file of xls) {
+    await analyzeFile(file);
+  }
 };
 
 main()
