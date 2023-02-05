@@ -15,7 +15,10 @@ const analyzeFile = async (filename: string): Promise<void> => {
   const expenses = utils.sheet_to_json<ExpenseRaw>(sheet).map(e => new Expense(e));
 
   const sorter = new Sorter([
-    { title: 'treats', matches: ['starbucks', 'apple store', 'paypal', 'tikkie'] },
+    {
+      title: 'treats',
+      matches: ['starbucks', 'apple store', 'paypal', 'tikkie', 'game mania', 'decathlon', 'media markt']
+    },
     { title: 'basic-fit', matches: ['basic fit international'] },
     {
       title: 'living',
@@ -32,9 +35,29 @@ const analyzeFile = async (filename: string): Promise<void> => {
         'sportcity'
       ]
     },
-    { title: 'playtomic', matches: ['playtomic'] },
-    { title: 'food', matches: ['albert heijn', 'mol*muscle meals', 'veritas', 'ah to go', 'smullers'] },
-    { title: 'thuisbezorgd', matches: ['thuisbezorgd'] },
+    {
+      title: 'playtomic',
+      matches: ['playtomic', 'club padel sabadell', 'padelcity', 'la playa rijswijk', 'sportcenter allrou']
+    },
+    {
+      title: 'food',
+      matches: [
+        'albert heijn',
+        'mol*muscle meals',
+        'veritas',
+        'ah to go',
+        'smullers',
+        'veggie 4 u',
+        'hipermercat esclat',
+        'condis',
+        'caprabo',
+        'jumbo'
+      ]
+    },
+    {
+      title: 'food deliveries',
+      matches: ['thuisbezorgd', 'glovo', 'dominos', 'vjfb', 'poke perfect', 'hawaiian poke bowl', 'mcdonalds', 'eazie']
+    },
     { title: 'transport', matches: ['ns groep iz ns reizigers', 'ovpay.nl'] },
     { title: 'banking', matches: ['sepa overboeking'] }
   ]);

@@ -15,7 +15,7 @@ export class Sorter {
     for (const category of this.expenseCategories) {
       if (category.addIfMatches(expense)) return;
     }
-    this.misc.addIfMatches(expense);
+    this.misc.addAlways(expense);
   }
 
   getExpenses(): Record<string, unknown>[] {
